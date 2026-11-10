@@ -1,0 +1,92 @@
+# ClaudePilot router rules.
+#
+# Tiers map to Claude Code model aliases, so new model releases need no code change:
+# `/model haiku`, `/model sonnet` and `/model opus` always resolve to the current version.
+#
+# Each rule matches a prompt with case-insensitive regexes. The highest-weight matching
+# rule wins. Ties go to the higher tier. Contributions welcome: add a rule and a test case
+# in tests/test_classifier.py.
+
+tiers:
+  haiku:
+    alias: haiku
+    label: Haiku
+    good_for: quick answers, lookups, small edits
+  sonnet:
+    alias: sonnet
+    label: Sonnet
+    good_for: everyday coding, debugging, refactors
+  opus:
+    alias: opus
+    label: Opus
+    good_for: architecture, hard bugs, deep reasoning
+
+default_tier: sonnet
+
+# Prompts shorter than this (in words) with no other signal lean to haiku.
+short_prompt_words: 12
+# Prompts longer than this lean to opus.
+long_prompt_words: 250
+
+rules:
+  - name: architecture
+    tier: opus
+    weight: 30
+    reason: architecture / system design
+    patterns:
+      - '\barchitect(ure|ing)?\b'
+      - '\bsystem design\b'
+      - '\bdesign (a|the) (system|service|schema|api)\b'
+      - '\btrade-?offs?\b'
+      - '\bscalab(le|ility)\b'
+
+  - name: deep-reasoning
+    tier: opus
+    weight: 25
+    reason: needs deep reasoning
+    patterns:
+      - '\b(race condition|deadlock|memory leak|heisenbug)\b'
+      - '\b(prove|formal(ly)? verify|invariant)\b'
+      - '\bwhy (does|is) .* (only|sometimes|intermittent)'
+      - '\bthink (hard|deeply|carefully)\b|\bultrathink\b'
+      - '\bmigrat(e|ion) (the )?(whole|entire)\b'
+
+  - name: large-refactor
+    tier: opus
+    weight: 20
+    reason: large multi-file change
+    patterns:
+      - '\b(across|entire|whole) (the )?(codebase|repo|project)\b'
+      - '\brewrite\b.*\b(module|service|app)\b'
+
+  - name: debugging
+    tier: sonnet
+    weight: 15
+    reason: debugging
+    patterns:
+      - '\b(bug|fix|error|exception|traceback|stack ?trace|failing|broken|crash)\w*'
+
+  - name: coding
+    tier: sonnet
+    weight: 10
+    reason: general coding
+    patterns:
+      - '\b(implement|add|write|create|build|refactor|update|change)\b.*\b(function|class|endpoint|test|component|feature|script|method)s?\b'
+      - '\b(tests?|unit test|pytest|jest)\b'
+
+  - name: quick-question
+    tier: haiku
+    weight: 12
+    reason: simple question / lookup
+    patterns:
+      - '^\s*(what|which|where|who|when) (is|are|does|do)\b'
+      - '^\s*(how do i|how to)\b.{0,60}$'
+      - '\b(explain|summari[sz]e|tl;?dr|define|meaning of)\b'
+
+  - name: trivial-edit
+    tier: haiku
+    weight: 16  # beats "debugging": "fix the typo" is still trivial
+    reason: trivial edit
+    patterns:
+      - '\b(typo|rename|reformat|format|lint|sort imports|fix indentation)\b'
+      - '\b(commit message|changelog entry|docstring)\b'

@@ -1,0 +1,9 @@
+{
+  "name": "claudepilot",
+  "displayName": "ClaudePilot",
+  "version": "0.3.0",
+  "description": "Per-prompt model routing, token optimization, a secret guard, helper subagents and usage commands. Requires the claudepilot Python package (pipx install claudepilot).",
+  "author": { "name": "Arif Suhan" },
+  "license": "MIT",
+  "keywords": ["routing", "usage", "tokens", "security", "tmux"]
+}

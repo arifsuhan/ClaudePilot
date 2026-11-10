@@ -1,0 +1,1 @@
+pipx install -e --force echo $HOME/Documents/ClaudePilot

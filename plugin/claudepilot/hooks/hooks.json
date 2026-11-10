@@ -1,0 +1,49 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v claudepilot-hook >/dev/null 2>&1 || exit 0; exec claudepilot-hook prompt",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreModelSwitch": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v claudepilot-hook >/dev/null 2>&1 || exit 0; exec claudepilot-hook pre-model-switch",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostModelSwitch": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v claudepilot-hook >/dev/null 2>&1 || exit 0; exec claudepilot-hook model-switch",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Read|Edit|Write|MultiEdit|NotebookEdit|Grep|Glob|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "command -v claudepilot-hook >/dev/null 2>&1 || exit 0; exec claudepilot-hook guard",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

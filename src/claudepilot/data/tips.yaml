@@ -1,0 +1,37 @@
+# Rotating tips shown in the sidebar's GUIDE section.
+#
+# Categories: security, policy, tokens, model. Keep each tip under ~110 characters,
+# accurate, and actionable. Wrap each tip in single quotes (double a literal ' as '').
+# Don't hard-code plan limits; point to /usage or the docs instead.
+# A user override can live at ~/.config/claudepilot/tips.yaml (same format).
+
+security:
+  - 'Deny secret reads in settings.json, e.g. "deny": ["Read(./.env)", "Read(./secrets/**)"].'
+  - 'Review every shell command before approving it. /permissions shows what is pre-approved.'
+  - 'Only use --dangerously-skip-permissions inside a throwaway container or VM.'
+  - 'Audit MCP servers with /mcp. Each one can read what you send it and act for you.'
+  - 'Never paste production credentials or customer data into a prompt.'
+  - 'Review the diff (git diff) before you commit or deploy generated code.'
+  - 'Keep personal settings in .claude/settings.local.json. It is meant to stay out of git.'
+
+policy:
+  - 'Subscription usage and API billing are separate. ANTHROPIC_API_KEY makes Claude Code bill the API.'
+  - 'Your plan''s limits are shared across Claude apps (claude.ai, desktop, Claude Code).'
+  - '/usage shows the official numbers. ClaudePilot forecasts are estimates.'
+  - 'Don''t share accounts or route others'' work through your plan. Check Anthropic''s Consumer Terms.'
+  - 'Limits reset on a rolling 5-hour window plus a weekly window. Plan heavy work after a reset.'
+
+tokens:
+  - 'Write prompts like a caveman: ''fix null check login.ts L42'' beats a polite paragraph.'
+  - '/clear between unrelated tasks. Old context is re-sent with every message.'
+  - '/compact when context passes ~70%. /context shows what is filling it.'
+  - '@-mention exact files (@src/auth.ts) instead of asking Claude to search everywhere.'
+  - 'Keep CLAUDE.md short and specific. It is loaded into every conversation.'
+  - 'Use plan mode (Shift+Tab) for big tasks. Agree on a plan before Claude edits files.'
+  - 'Batch small related asks into one prompt instead of many back-and-forth turns.'
+  - 'Paste only the relevant part of a log or error, not the whole file.'
+
+model:
+  - 'Haiku handles quick questions and small edits well. Save Opus for hard problems.'
+  - 'Switching models mid-conversation re-sends the whole context, so switch early or after /clear.'
+  - 'Stuck after two tries? Escalate to Opus instead of repeating the same prompt.'

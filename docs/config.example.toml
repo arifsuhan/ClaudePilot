@@ -1,0 +1,41 @@
+# Copy to ~/.config/claudepilot/config.toml. Every key is optional.
+
+[router]
+mode = "auto"                # off | advise | auto (default; experimental, needs tmux)
+switch_cost_tokens = 150000   # above this context size, don't switch models (cache cost)...
+delegate = true              # ...suggest the claudepilot-quick/-deep subagents instead
+
+[tokens]
+mode = "auto"                # off | auto: add a brevity instruction to each prompt
+caveman_usage = 75           # switch from "lite" to ultra-terse "caveman" at this 5h/weekly usage %
+caveman_context = 70         # ...or at this context-window %
+
+[guard]
+mode = "ask"                 # off | ask | deny: when Claude touches .env, keys, ~/.ssh, ~/.aws, ...
+
+[statusline]
+style = "compact"            # compact | full (2 lines: bars, forecast, modes; handy without tmux)
+
+[files]
+editor = "vim"               # opened by Enter in the Files panel (falls back to $EDITOR, vi, nano)
+
+[guide]
+tips = 3                     # tips shown at once in the sidebar
+rotate_seconds = 30
+
+[alerts]
+thresholds = [75, 90]        # percent of the 5h / weekly window
+desktop = true               # notify-send (Linux) / osascript (macOS)
+bell = true                  # terminal bell in the sidebar
+on_reset = true
+
+[workspace]
+sidebar_width = 42
+claude_command = "claude"    # e.g. "claude --model sonnet"
+nav_keys = true              # Ctrl+arrows (and Alt+arrows) switch panels, no tmux prefix
+mouse = true                 # click a panel to focus it (Shift+drag selects text)
+close_with_claude = true     # closing Claude Code (or its pane) ends the whole cockpit
+refresh_seconds = 1.0
+
+# To customise routing or tips, copy src/claudepilot/data/models.yaml or tips.yaml
+# to ~/.config/claudepilot/ and edit it.

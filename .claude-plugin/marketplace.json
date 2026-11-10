@@ -1,0 +1,14 @@
+{
+  "name": "claudepilot",
+  "owner": { "name": "Arif Suhan" },
+  "metadata": {
+    "description": "ClaudePilot: model routing, token optimization, secret guard and usage analytics for Claude Code"
+  },
+  "plugins": [
+    {
+      "name": "claudepilot",
+      "source": "./plugin/claudepilot",
+      "description": "Per-prompt model routing, token optimization, a secret guard, helper subagents and usage commands. Requires the claudepilot Python package."
+    }
+  ]
+}
